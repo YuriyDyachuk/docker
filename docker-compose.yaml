@@ -1,0 +1,88 @@
+###############################################################################
+#                              Generated on Docker                            #
+###############################################################################
+version: '3.8'
+services:
+
+  mysql:
+    image: 'mysql:8.0'
+    container_name: ${CONTAINER_MYSQL_NAME}
+    restart: unless-stopped
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/mysql.cnf
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: mastersUser
+      MYSQL_TCP_PORT: ${MYSQL_PORT_OUT}
+    ports:
+      - ${MYSQL_PORT_IN}:${MYSQL_PORT_OUT}
+    networks:
+      - masters_network
+
+  nginx:
+    build: docker/nginx
+    container_name: ${CONTAINER_NGINX_NAME}
+    working_dir: /var/www/app
+    restart: always
+    volumes:
+      - .:/var/www/app
+      - ./docker/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - ${NGINX_PORT_IN_80}:${NGINX_PORT_OUT_80}
+    networks:
+      - masters_network
+
+  app:
+    build: docker/php-fpm
+    container_name: ${CONTAINER_PHP_FPM_NAME}
+    restart: unless-stopped
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+      - ./docker/php-fpm/php.d/local.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+    networks:
+      - masters_network
+
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_REDIS_NAME}
+    networks:
+      - masters_network
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis:/data
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - ${PHPMYADMIN_PORT_IN}:${PHPMYADMIN_PORT_OUT}
+    environment:
+      MYSQL_USERNAME: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      PMA_HOST: db
+    networks:
+      - masters_network
+
+  swagger:
+    container_name: ${CONTAINER_SWAGGER_NAME}
+    image: swaggerapi/swagger-ui
+    restart: always
+    environment:
+      SWAGGER_JSON: /tmp/swagger.yaml
+    ports:
+      - ${SWAGGER_PORT_IN}:${SWAGGER_PORT_OUT}
+    volumes:
+      - ./docker/swagger/swagger.yaml:/tmp/swagger.yaml
+      - ./docker/swagger/docker/swagger/nginx/cors.conf:/etc/nginx/cors.conf
+      - ./docker/swagger/docker/htpasswd:/etc/nginx/htpasswd
+    networks:
+      - masters_network
+
+networks:
+  masters_network: {}
+
+volumes:
+  masters_network: {}

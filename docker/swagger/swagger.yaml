@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: REST API for Dashboard
+  description: This is the REST API endpoints definition for Dashboard project
+  version: 0.1.0
+  contact:
+    email: yuriydyachuk91@gmail.com
+servers:
+  - url: 'https://your-site-url/api/'
+    description: Server
+  - url: 'http://localhost:3010/api/'
+    description: Local Server
+
+paths:
+  # You service описание всех запросов
+components:
+  # Описание всех деталей (ответов) к запросам
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
