@@ -9,11 +9,11 @@
 
 ## ABOUT DOCUMENTATION FOR []()
 
-## ВСЕ ВЫПОЛНЯЕМЫЕ КОМАНДЫ ОТ РОДИТЕЛЬСКОЙ ДИРЕКТОРИИ ТОЛЬКО ЧЕРЕЗ make
-## ЗАХОД В КОНТЕЙНЕР ЧЕРЕЗ КОММАНДУ:  make login
-## ВСЕ ЧТО ДЕЛАЕМ В КОНТЕЙНЕРЕ ДЕЛАЕМ КАК ОБЫЧНЫЙ ВЫЗОВ ТЕХ ИЛИ ИНЫХ СЕРВИСОВ (php -v, nvm -v и так далее)
-## НИЖЕ ПРЕЖДОСТАВЛЕН СПИСОК ВСЕХ КОММАНД
-## КОММАНДА make info ПРЕДОСТАВИТ ВСЕ СУЩЕСТВУЮЩИЕ КОММАНДЫ В Makefile
+## ALL COMMANDS EXECUTED FROM THE PARENT DIRECTORY ONLY THROUGH make
+## ENTERING THE CONTAINER VIA COMMAND: log in
+## EVERYTHING WE DO IN THE CONTAINER IS DONE AS A REGULAR CALL OF THOSE SERVICES (php -v, nvm -v and so on)
+## BELOW IS A LIST OF ALL COMMANDS
+## COMMAND make info PROVIDE ALL EXISTING COMMANDS IN THE MAKEFILE
 
 * Uninstall old versions
 * Older versions of Docker were called docker, docker.io, or docker-engine. If these are installed, uninstall them:
